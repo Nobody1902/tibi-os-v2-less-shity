@@ -1,0 +1,3 @@
+[submodule "BareMetal"]
+	path = BareMetal
+	url = https://github.com/ReturnInfinity/BareMetal
