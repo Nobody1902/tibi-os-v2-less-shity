@@ -1,10 +1,7 @@
 #include "../BareMetal/api/libBareMetal.h"
 
-int main() {
-  b_output("Hello World!", 11);
-
+void _start(void) {
   for(;;) {
-    b_system(DELAY, 1, 1);
+    b_output("Hello World!", 11);
   }
-  return 0;
 }
