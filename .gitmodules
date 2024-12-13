@@ -1,3 +1,6 @@
 [submodule "BareMetal"]
 	path = BareMetal
 	url = https://github.com/ReturnInfinity/BareMetal
+[submodule "Pure64"]
+	path = Pure64
+	url = https://github.com/ReturnInfinity/Pure64
