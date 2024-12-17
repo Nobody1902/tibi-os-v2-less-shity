@@ -1,15 +1,39 @@
 OUTPUT_FORMAT(binary)
 OUTPUT_ARCH(i386:x86-64)
 
-MEMORY
-{
-    MEM1           : ORIGIN = 0x00000000,          LENGTH = 100K
-    MEM2           : ORIGIN = 0x001E0000,          LENGTH = 2048K
-}
-
+ENTRY(_start)
 
 SECTIONS
 {
-    .libBareMetal    : { libBareMetal.o(.text .text.*) } >MEM1
-    .main    : { main.o(.text .text.*) } >MEM2
+	. = 0x001E000000000;
+
+	.text : {
+		*(.text .text.*)
+	}
+
+	. = ALIGN(16);
+
+	.rodata : {
+		*(.rodata .rodata.*)
+	}
+
+	. = ALIGN(16);
+
+	.data : {
+		*(.data .data.*)
+	}
+
+	. = ALIGN(16);
+
+	__bss_start = .;
+	.bss : {
+		*(.bss .bss.*)
+	}
+	__bss_stop = .;
+
+	/DISCARD/ : {
+		*(.eh_frame*)
+		*(.note .note.*)
+		*(.intrep)
+	}
 }
