@@ -31,7 +31,7 @@ echo "Escaped hell with great success :)"
 cd bin
 cat pure64-bios.sys kernel.sys main.sys > software.sys
 
-# echo "Gave Tibi purpose (bin/tibi.sys)"
+echo "Gave Tibi purpose (bin/tibi.img)"
 dd if=/dev/zero of=bmfs.img count=128 bs=1048576 status=none
 dd if=/dev/zero of=fat32.img count=128 bs=1048576 status=none
 
@@ -44,7 +44,11 @@ cat fat32.img bmfs.img > tibi.img
 
 cd ..
 
-echo "Hell has been compacted (bin/disk.img)"
-echo "Run: qemu-system-x86_64 -machine q35 -name Tibi-OS-v2 -m 256 -smp sockets=1,cpus=4 -drive id=disk0,file=bin/disk.img,if=none,format=raw -device ahci,id=ahci -device ide-hd,drive=disk0,bus=ahci.0 -serial stdio -monitor telnet:localhost:8086,server,nowait"
+echo "Hell has been compacted (bin/tibi.img)"
+echo "Run: qemu-system-x86_64 -drive format=raw,file=bin/tibi.img"
+
+if [[ $1 = "run" ]]; then
+  qemu-system-x86_64 -drive format=raw,file=bin/tibi.img
+fi
 
 rm src/*.o
