@@ -48,7 +48,7 @@ echo "Hell has been compacted (bin/tibi.img)"
 echo "Run: qemu-system-x86_64 -drive format=raw,file=bin/tibi.img"
 
 if [[ $1 = "run" ]]; then
-  qemu-system-x86_64 -drive format=raw,file=bin/tibi.img
+  qemu-system-x86_64 -nographic -drive format=raw,file=bin/tibi.img
 fi
 
 rm src/*.o
