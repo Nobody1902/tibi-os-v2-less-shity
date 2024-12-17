@@ -17,7 +17,7 @@ void _start(void) {
     if(keyChar == 0x1C) {
       b_output("\n", 1);
       // Check for goodbye commend
-      if(cmpstr(text, goodbye, 100))
+      if(cmpstr(text, goodbye, cursor))
         b_system(SHUTDOWN, 0, 0);
       cursor = 0;
       continue;
