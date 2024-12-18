@@ -1,14 +1,25 @@
 #include "../BareMetal/api/libBareMetal.h"
 
 int cmpstr(char* str1, char* str2, int n);
+void memw(char* addr, char byte);
+char memr(char* addr);
 
 void _start(void) {
 
-  b_output("Hello World!\n", 13);
+  b_output("Welcome to the new world!\n", 26);
   
   char text[100] = {0};
   char goodbye[100] = "goodbye";
   int cursor = 0;
+
+  //Memory write and read test
+  memw((char*)0x002E0000, 'A');
+  char test = memr((char*)0x002E0000);
+  b_output(&test, 1);
+  b_output("\n", 1);
+  b_output((char*)0x002E0000,1);
+  b_output("\n", 1);
+
 
   for(;;) {
     char keyChar = b_input();
@@ -42,4 +53,10 @@ int cmpstr(char* str1, char* str2, int n){
     if(str1[i] != str2[i]) return 0;
   }
   return 1;
+}
+void memw(char* addr, char byte){
+  *addr = byte;
+}
+char memr(char* addr){
+  return *addr;
 }
