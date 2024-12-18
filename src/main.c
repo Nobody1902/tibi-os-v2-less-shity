@@ -1,8 +1,8 @@
 #include "../BareMetal/api/libBareMetal.h"
 
 int cmpstr(char* str1, char* str2, int len);
-void memw(char* addr, char byte);
-char memr(char* addr);
+void memwb(u8* addr, u8 byte);
+u8 memrb(u8* addr);
 u64 hex2u64(char* str, int len);
 
 void _start(void) {
@@ -15,8 +15,8 @@ void _start(void) {
 
   //Memory write and read test
   {
-    memw((char*)0x002E0000, 'A');
-    char test = memr((char*)0x002E0000);
+    memwb((u8*)0x002E0000, 'A');
+    char test = memrb((u8*)0x002E0000);
     b_output(&test, 1);
     b_output("\n", 1);
     b_output((char*)0x002E0000,1);
@@ -64,10 +64,10 @@ int cmpstr(char* str1, char* str2, int n){
   }
   return 1;
 }
-void memw(char* addr, char byte){
+void memwb(u8* addr, u8 byte){
   *addr = byte;
 }
-char memr(char* addr){
+u8 memrb(u8* addr){
   return *addr;
 }
 u64 hex2u64(char* str, int n){
