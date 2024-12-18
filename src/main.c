@@ -1,8 +1,9 @@
 #include "../BareMetal/api/libBareMetal.h"
 
-int cmpstr(char* str1, char* str2, int n);
+int cmpstr(char* str1, char* str2, int len);
 void memw(char* addr, char byte);
 char memr(char* addr);
+u64 hex2u64(char* str, int len);
 
 void _start(void) {
 
@@ -13,12 +14,21 @@ void _start(void) {
   int cursor = 0;
 
   //Memory write and read test
-  memw((char*)0x002E0000, 'A');
-  char test = memr((char*)0x002E0000);
-  b_output(&test, 1);
-  b_output("\n", 1);
-  b_output((char*)0x002E0000,1);
-  b_output("\n", 1);
+  {
+    memw((char*)0x002E0000, 'A');
+    char test = memr((char*)0x002E0000);
+    b_output(&test, 1);
+    b_output("\n", 1);
+    b_output((char*)0x002E0000,1);
+    b_output("\n", 1);
+  }
+  //hex2u64 test
+  {
+    u64 test = hex2u64("11",2);
+    for(int i = 0; i < test; i++)
+      b_output("I",1);
+    b_output("\n", 1);
+  }
 
 
   for(;;) {
@@ -60,3 +70,17 @@ void memw(char* addr, char byte){
 char memr(char* addr){
   return *addr;
 }
+u64 hex2u64(char* str, int n){
+  u64 out = 0;
+  for(int i = 0; i < n; i++){
+    out *= 16;
+    if(str[i] >= '0' && str[i] <= '9')
+      out += *str - '0';
+    if(str[i] >= 'a' && str[i] <= 'f')
+      out += (*str - 'a') + 0xA;
+    if(str[i] >= 'A' && str[i] <= 'F')
+      out += (*str - 'A') + 0xA;
+  }
+  return out;
+}
+
