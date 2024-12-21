@@ -3,6 +3,11 @@ OUTPUT_ARCH(i386:x86-64)
 
 ENTRY(_start)
 
+MEMORY
+{
+  RAM (xrw) : ORIGIN = 0x20000000, LENGTH = 128K
+}
+
 SECTIONS
 {
 	. = 0x001E0000;
@@ -30,6 +35,13 @@ SECTIONS
 		*(.bss .bss.*)
 	}
 	__bss_stop = .;
+
+  .heap (NOLOAD) : {
+    __heap_start__ = .;
+    . = . + LENGTH(RAM);
+    __heap_end__ = .;
+  } > RAM
+
 
 	/DISCARD/ : {
 		*(.eh_frame*)

@@ -2,6 +2,7 @@
 
 #include "mem.h"
 #include "def.h"
+#include "heap.h"
 
 void* memset(void* b, int c, int len) {
   int i;

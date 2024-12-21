@@ -3,6 +3,7 @@
 #include "string.h"
 #include "mem.h"
 #include "print.h"
+#include "math.h"
 
 void _start(void) {
 
@@ -10,6 +11,34 @@ void _start(void) {
 
   char text[80] = {0};
   int cursor = 0;
+  
+  // log test
+  {
+    float l10 = log(10);
+    float l1010 = log10(10);
+    print_float(l10);
+    print("\n");
+    print_float(l1010);
+  }
+
+  // itos test
+  {
+    i64 num = -1234567890123456789;
+    char buff[21];
+    itos(num, buff);
+
+    print(buff);
+    print("\n");
+  }
+
+  // ftos test
+  {
+    float num = -12345.6789f;
+    char buff[50];
+    ftos(num, buff);
+    print(buff);
+    print("\n");
+  }
 
   // hex2u64 test
   {
