@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export OUTPUT_DIR="$(pwd)/bin"
+export SOURCE_DIR="$(pwd)/src"
 
 rm -rf bin
 mkdir bin
@@ -22,9 +23,20 @@ mv "BareMetal/bin/kernel-debug.txt" "${OUTPUT_DIR}/kernel-debug.txt"
 echo "Going to hell!"
 
 cd src
-gcc -c -m64 -nostdlib -nostartfiles -nodefaultlibs -o main.o main.c
+
+export C_SOURCE="$(find . -name '*.c')"
+C_SOURCE=${C_SOURCE//"./main.c"/}
+echo Compiling: \'$C_SOURCE\'
+
+gcc -c -m64 -nostdlib -nostartfiles -nodefaultlibs main.c -o main.o
+gcc -c -m64 -nostdlib -nostartfiles -nodefaultlibs ${C_SOURCE}
 gcc -c -m64 -nostdlib -nostartfiles -nodefaultlibs -o libBareMetal.o ../BareMetal/api/libBareMetal.c
-ld -T linker.ld -o ${OUTPUT_DIR}/main.sys main.o libBareMetal.o
+
+export C_OBJECT="$(find . -name '*.o')"
+C_OBJECT=${C_OBJECT//"./main.o"/}
+echo Compiled to: \'$C_OBJECT\'
+
+ld -T linker.ld -o ${OUTPUT_DIR}/main.sys main.o ${C_OBJECT}
 cd ..
 echo "Escaped hell with great success :)"
 
